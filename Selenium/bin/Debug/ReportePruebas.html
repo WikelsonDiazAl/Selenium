@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Pruebas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .aprobado {
+            background-color: green;
+            color: white;
+        }
+
+        .fallido {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Pruebas Automáticas</h1>
+    <p>Total de Pruebas: <span id="total_pruebas">0</span></p>
+    <p>Pruebas Aprobadas: <span id="pruebas_aprobadas">0</span></p>
+    <p>Pruebas Fallidas: <span id="pruebas_fallidas">0</span></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Prueba</th>
+                <th>Resultado</th>
+                <th>Duración (ms)</th>
+                <th>Mensaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr>
+                    <td>BuscarConResultados</td>
+                    <td class='aprobado'>Aprobado</td>
+                    <td>8297 ms</td>
+                    <td>-</td>
+                </tr>
+        </tbody>
+    </table>
+</body>
+</html>
