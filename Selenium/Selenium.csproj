@@ -95,10 +95,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agregar.cs" />
     <Compile Include="Busqueda.cs" />
+    <Compile Include="CerrarSesion.cs" />
     <Compile Include="Comprar.cs" />
+    <Compile Include="Conteo.cs" />
+    <Compile Include="Editar.cs" />
+    <Compile Include="Eliminar.cs" />
+    <Compile Include="Filtro.cs" />
+    <Compile Include="InicioSesion.cs" />
     <Compile Include="ListaDeseo.cs" />
-    <Compile Include="Logiin.cs" />
+    <Compile Include="MostrarConvivencia.cs" />
+    <Compile Include="Panico.cs" />
+    <Compile Include="Registro.cs" />
     <Compile Include="LoginTest.cs" />
     <Compile Include="PaginaItla.cs" />
     <Compile Include="Perfil.cs" />

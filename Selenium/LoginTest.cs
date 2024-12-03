@@ -22,129 +22,269 @@ namespace Selenium
             
             Driver = new ChromeDriver();
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(120);
-            Driver.Navigate().GoToUrl("https://store.steampowered.com/");
         }
 
         [Test]
-        public void LoginExitoso()
+        public void RegistroExitoso()
         {
-            Logiin logiin = new Logiin(Driver);
+            Driver.Navigate().GoToUrl("http://localhost:5206/Registrar");
+            Registro logiin = new Registro(Driver);
 
-            logiin.LoginAs("wikelson1", "Fulanitoelmejor1-");
+            string usuario = "Marcos";
+            string correo = "Marcos@gmail.com";
+            string clave = "ContraseñaSegura1-";
 
-            if (logiin.VerificarLoginExitoso())
-            {
-                Console.WriteLine("Login exitoso: el elemento esperado está presente.");
-            }
-            else
-            {
-                Console.WriteLine("Error: Login fallido, el elemento esperado no está presente.");
-            }
+            logiin.RegistrarUsuario(usuario, correo, clave);
+
+           
         }
 
         [Test]
-        public void LoginFallido()
+        public void RegistroFallido()
         {
-            Logiin logiin = new Logiin(Driver);
 
-            logiin.LoginAs("wikelson2", "Fulanitoelmejor1");
+            Driver.Navigate().GoToUrl("http://localhost:5206/Registrar");
+            Registro logiin = new Registro(Driver);
 
-            if (logiin.VerificarLoginFallido())
-            {
-                Console.WriteLine("Login fallido correctamente: se muestra el mensaje de error.");
-            }
-            else
-            {
-                Console.WriteLine("Error: No se muestra el mensaje de error, el login no falló como se esperaba.");
-            }
+            string usuario = "";
+            string correo = "";
+            string clave = "";
+
+            logiin.RegistrarUsuariofallido(usuario, correo, clave);
+
+
         }
 
         [Test]
-        public void BuscarConResultados()
+        public void SesionExitoso()
         {
-            Busqueda busqueda = new Busqueda(Driver);
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            InicioSesion logiin = new InicioSesion(Driver);
 
-            busqueda.Buscar("Hollow knight");
-            
-            try
-            {
-                IWebElement resultados = Driver.FindElement(By.Id("search_resultsRows"));
-                Console.WriteLine("Se encontraron resultados.");
-                busqueda.CapturarPantalla("Resultados encontrados");
-            }
-            catch (NoSuchElementException)
-            {
-                Console.WriteLine("No se encontraron resultados.");
-            }
-        }
-
-        [Test]
-        public void BuscarSinResultados()
-        {
  
-            Busqueda busqueda = new Busqueda(Driver);
+            string correo = "Jose@gmail.com";
+            string clave = "Jose123";
 
-            busqueda.Buscar("El fulanitomejor");
+            logiin.SesionUsuario(correo, clave);
 
-
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement noResultsMessage = wait.Until(d => d.FindElement(By.CssSelector(".search_results_count")));
-
-            if (noResultsMessage.Text.Contains("0 resultados coinciden con la búsqueda"))
-            {
-                Console.WriteLine("No se encontraron resultados.");
-                busqueda.CapturarPantalla("Resultados no encontrados");
-            }
-            else
-            {
-                Console.WriteLine("Se encontraron resultados.");
-            }
-
-            busqueda.CapturarPantalla("Juego no encontrado");
         }
 
         [Test]
-        public void Carrito()
+        public void SesionFallido()
         {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            InicioSesion logiin = new InicioSesion(Driver);
 
-            Comprar comprar = new Comprar(Driver);
+            string correo = "Manuel@gmail.com";
+            string clave = "holajaja3";
 
-            comprar.Seleccion();
+            logiin.SesionUsuariofallido(correo, clave);
 
-            comprar.Botoncompra();
 
-            comprar.Botoncarrito();
-
-            comprar.Botonrcompras();
         }
 
         [Test]
-        public void ListaDeseo()
+        public void AgregarExito()
         {
-            ListaDeseo listadeseo = new ListaDeseo(Driver);
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Agregar logiin = new Agregar(Driver);
 
-            listadeseo.LoginAs("wikelson1", "Fulanitoelmejor1-");
 
-            listadeseo.Seleccionar();
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+            logiin.Añadir();
 
-            listadeseo.AñadirLLista();
+            
+            logiin.AgregarVivencia("Minecraft", "Hoy jugué Minecraft y construí una casa en la cima de una montaña. Me tomó un tiempo conseguir los materiales, pero al final quedó perfecta. También exploré una cueva oscura y encontré diamantes, aunque casi me atrapa un Creeper. Fue divertido y me sentí como un verdadero constructor y aventurero.", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSz5LBHSKh1RbicnjEqppICIGRbey-yF4ZMhg&s");
+            logiin.CapturarPantalla("Formulario lleno");
+            logiin.BtnAñadir();
+            
 
-            listadeseo.Lista();
-
-            listadeseo.Quitar();
         }
 
         [Test]
-        public void Perfil()
+        public void AgregarFallido()
         {
-            Perfil perfil = new Perfil(Driver);
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Agregar logiin = new Agregar(Driver);
 
-            perfil.LoginAs("wikelson1", "Fulanitoelmejor1-");
 
-            perfil.IrPerfil();
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+            logiin.Añadir();
+
+
+            logiin.AgregarVivenciaerror("", "", "");
+
+            logiin.BtnAñadirerror();
+
+        }
+
+        [Test]
+        public void EditarExitoso()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Editar logiin = new Editar(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.BtnEditar();
+
+            logiin.AgregarVivencia("Titulo modificado");
+
+            logiin.BtnAñadir();
+
+        }
+
+        [Test]
+        public void EliminarExitoso()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Eliminar logiin = new Eliminar(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.BotonEliminar();
+
+            logiin.BotonConfirmar();
+
+        }
+
+        [Test]
+        public void FiltroExitoso()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Filtro logiin = new Filtro(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.IngresarTitulo("minecraft");
+
+            logiin.BotonFiltro();
+
+        }
+
+        [Test]
+        public void FiltroExitosoFallido()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Filtro logiin = new Filtro(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.IngresarTituloerror("hola");
+
+            logiin.BotonFiltroerror();
+
+        }
+
+        [Test]
+        public void ConteoExitoso()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Conteo logiin = new Conteo(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.Añadir();
+
+            logiin.AgregarVivencia("Minecraft", "Hoy jugué Minecraft y construí una casa en la cima de una montaña. Me tomó un tiempo conseguir los materiales, pero al final quedó perfecta. También exploré una cueva oscura y encontré diamantes, aunque casi me atrapa un Creeper. Fue divertido y me sentí como un verdadero constructor y aventurero.", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSz5LBHSKh1RbicnjEqppICIGRbey-yF4ZMhg&s");
+
+            logiin.BtnAñadir();
+
+            logiin.BotonEliminar();
+
+            logiin.BotonConfirmar();
+
 
 
         }
+
+        [Test]
+        public void BotonPanicoExito()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Panico logiin = new Panico(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.Añadir();
+
+            logiin.AgregarVivencia("Animal Crossing: New Horizons", "En mi pequeña isla, pase un dia decorando mi casa con muebles que habia hecho yo mismo.","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAkpdUmFbYJ_He7veJqhNuHDbOsV-Dy2SF6A&s");
+
+            logiin.BtnAñadir();
+
+            logiin.BotonPanico();
+
+            logiin.Barra("Jose123");
+
+            logiin.BotonEliminar();
+
+        }
+
+        [Test]
+        public void BotonPanicoFallido()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            Panico logiin = new Panico(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.BotonPanicoerror();
+
+            logiin.BotonEliminarerror();
+
+        }
+
+        [Test]
+        public void MostrarConvivencia()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            MostrarConvivencia logiin = new MostrarConvivencia(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.Añadir();
+
+            logiin.AgregarVivencia("Animal Crossing: New Horizons", "En mi pequeña isla, pase un dia decorando mi casa con muebles que habia hecho yo mismo.", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAkpdUmFbYJ_He7veJqhNuHDbOsV-Dy2SF6A&s");
+
+            logiin.BtnAñadir();
+
+
+        }
+
+        [Test]
+        public void CerrarSesion()
+        {
+            Driver.Navigate().GoToUrl("http://localhost:5206/Login");
+            CerrarSesion logiin = new CerrarSesion(Driver);
+
+
+            logiin.SesionUsuario("Jose@gmail.com", "Jose123");
+            logiin.ClickRegistrarBoton();
+
+            logiin.Cerrar();
+            
+
+
+        }
+
 
         [TearDown]
         public void AfterTest()
